@@ -14,7 +14,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const nonce = (await headers()).get("x-nonce");
-  console.log("set layout nonce", nonce);
+  console.log("set nonce", nonce);
   nonceCache().current = nonce;
   return (
     <html lang="en">

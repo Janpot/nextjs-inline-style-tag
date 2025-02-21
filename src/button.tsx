@@ -12,7 +12,7 @@ const getCss = React.cache((nonce: string | null) => (
 
 function Button({ className, ...rest }: any) {
   const nonce = nonceCache().current;
-  console.log(`get button nonce: ${nonce}`);
+  console.log(`get nonce: ${nonce}`);
   return (
     <>
       {getCss(nonce)}
