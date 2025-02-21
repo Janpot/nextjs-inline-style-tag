@@ -1,38 +1,23 @@
 import type { Metadata } from "next";
+import { nonceCache } from "./nonceCache";
+import { headers } from "next/headers";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Hoisted style tag",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const nonce = (await headers()).get("x-nonce");
+  nonceCache().current = nonce;
   return (
     <html lang="en">
-      <body>
-        {children}
-        <script type="module">
-          {`
-import { initPerfume } from 'https://unpkg.com/perfume.js@9.4.0/dist/perfume.esm.min.js';
-
-initPerfume({
-  analyticsTracker: options => {
-    const {
-      attribution,
-      metricName,
-      data,
-      navigatorInformation,
-      rating,
-      navigationType,
-    } = options;
-    console.log(metricName, { duration: data });
-  },
-});
-`}
-        </script>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
